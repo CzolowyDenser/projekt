@@ -1,0 +1,3 @@
+﻿  projekt.cpp
+d:\gicior\projekt\projekt\projekt.cpp(28): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+  projekt.vcxproj -> D:\gicior\projekt\Debug\projekt.exe
