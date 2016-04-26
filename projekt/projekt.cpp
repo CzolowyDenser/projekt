@@ -22,7 +22,7 @@ int main()
 	string kategoria;
 	string graczOne;
 	string graczTwo;
-	string nagroda;
+	int nagroda;
 	int nrHasla = 0;
 	int dlHasla = 0;
 	int nrNagrody = 0;
@@ -48,14 +48,25 @@ int main()
 		{
 			getline(plik, random);
 		}
+
+
+
+
+
 //wczytanie	hasla i kategori do osobnych zmiennych
 	plik >> kategoria;
 	plik >> haslo;
 	plik.close();
 	cout << kategoria<<endl;
+
+
+
 //podmiana hasla na kropki
 	dlHasla = haslo.size();
 	hasloKropki.append(dlHasla, '.');
+
+
+
 
 //losowanie nagrody z pliku	
 	cout << "Nacisnij ENTER aby zakrecic kolem" << endl;
