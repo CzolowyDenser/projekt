@@ -11,7 +11,18 @@
 
 using namespace std;
 
+void kolejkaGraczaPierwszego(string, string);
+int nagrodaa();
 
+struct gracz
+{
+	string imie;
+	int pieniadze;
+}jeden, dwa;
+
+
+int nrNagrody = 0;
+int dlHasla = 0;
 
 int main()
 {
@@ -20,25 +31,22 @@ int main()
 	string hasloKropki;
 	string random;
 	string kategoria;
-	string graczOne;
-	string graczTwo;
-	int nagroda;
+	
 	int nrHasla = 0;
-	int dlHasla = 0;
-	int nrNagrody = 0;
+	
+	
 	
 	srand(time(NULL));
 //wczytanie imion graczy
 	cout << "KOLO FORTUNY v0.1\n\n";
 	cout << "Podaj imie pierwszego gracza:\n";
-	getline(cin, graczOne);
+	getline(cin, jeden.imie);
 
 	cout << "Podaj imie drugiego gracza:\n";
-	getline(cin, graczTwo);
+	getline(cin, dwa.imie);
 	Sleep(800);
 	system("cls");
-	cout << "\nWitamy\n" << graczOne << " rozpoczyna kolejke.\n\nHaslo z kategori: \n";
-
+	cout << "\nWitamy\n" << jeden.imie << " rozpoczyna kolejke.\n\nHaslo z kategori: \n";
 
 	
 //wylosowanie hasla i kategori z pliku
@@ -49,17 +57,11 @@ int main()
 			getline(plik, random);
 		}
 
-
-
-
-
 //wczytanie	hasla i kategori do osobnych zmiennych
 	plik >> kategoria;
 	plik >> haslo;
 	plik.close();
 	cout << kategoria<<endl;
-
-
 
 //podmiana hasla na kropki
 	dlHasla = haslo.size();
@@ -68,23 +70,7 @@ int main()
 
 
 
-//losowanie nagrody z pliku	
-	cout << "Nacisnij ENTER aby zakrecic kolem" << endl;
-	cin.get();
-	ifstream prize("nagrody.txt");
-	nrNagrody = (rand() % 12) + 1;
-	for (int i = 1; i < nrNagrody; i++)
-	{
-		prize >> nagroda;
-	}
-	prize.close();
-	cout << "Wylosowales/as " << nagroda << endl;
-
-
-
-	
-	cout << endl;
-
+	kolejkaGraczaPierwszego(haslo, hasloKropki);
 	
 
 
@@ -93,3 +79,45 @@ int main()
 	cin.get();
 	return 0;
 }
+int nagrodaa()
+	{
+		int nagroda = 0;
+		cout << "Nacisnij ENTER aby zakrecic kolem" << endl;
+		cin.get();
+		ifstream prize("nagrody.txt");
+		nrNagrody = (rand() % 12) + 1;
+		for (int i = 1; i < nrNagrody; i++)
+		{
+			prize >> nagroda;
+		}
+		prize.close();
+		cout << "Wylosowales/as " << nagroda << endl;
+		return nagroda;
+	}
+
+void kolejkaGraczaPierwszego(string hasloo, string hasloKropkii)
+	{
+		char litera;
+		bool w = 0;
+		do
+		{
+			jeden.pieniadze+= nagrodaa();
+			w = 0;
+			cout << "Podaj litere." << endl;
+			cin >> litera;
+			cin.get();
+
+			for (int i = 0; i <= dlHasla; i++)
+				{
+					if (hasloo[i] == litera)
+					{
+						hasloKropkii[i] = litera;
+						w = 1;
+					}	
+				}
+			cout << hasloKropkii << endl;
+			cout << jeden.pieniadze<<endl;
+
+		} while (w==1);
+
+	}
