@@ -12,13 +12,13 @@ using namespace std;
 
 const int n = 12;										//ilosc nagrod
 const int p = 5;										//ilosc pytan
-const int r = 3;										//ilosc rund
+const int r = 1;										//ilosc rund
 int pwHasla[r+1];
 
 void kolejkaGraczaPierwszego(string, string&, int);
 void kolejkaGraczaDrugiego(string, string&, int);
 int nagrodaa();
-
+void wyswietlRanking();
 
 
 struct gracz
@@ -42,68 +42,99 @@ int main()
 	
 	srand(time(NULL));
 //wczytanie imion graczy
-	cout << "KOLO FORTUNY v0.1\n\n";
-	cout << "Podaj imie pierwszego gracza:\n";
-	getline(cin, jeden.imie);
-
-	cout << "Podaj imie drugiego gracza:\n";
-	getline(cin, dwa.imie);
-	Sleep(800);
-	system("cls");
-	cout << "\nWitamy\n" << jeden.imie << " rozpoczyna kolejke.\n\nHaslo z kategori: \n";
-
-	for (int i = 1; i <= r; i++)
+	
+	do
 	{
-		ifstream plik("hasla.txt");																			//wylosowanie hasla i kategori z pliku
-		nrHasla = (rand() % p) + 1;
-		pwHasla[i] = nrHasla;
+		system("cls");
+		cout << "KOLO FORTUNY v0.5\n\n\n";
+		cout << "1. Rozpocznij gre" << endl;
+		cout << "2. Sprawdz tabele wynikow" << endl;
+		cout << "3. Wyjscie" << endl;
+		int menu = 0;
+		cin >> menu;
+		switch (menu)
+		{
+		case 1:
+		{
+			system("cls");
+			cin.get();
+			cout << "Podaj imie pierwszego gracza:\n";
+			getline(cin, jeden.imie);
+			cout << "Podaj imie drugiego gracza:\n";
+			getline(cin, dwa.imie);
+			Sleep(800);
+			system("cls");
+			cout << "\nWitamy\n" << jeden.imie << " rozpoczyna kolejke.\n\nHaslo z kategori: \n";
 
-		if (i > 1)
+			for (int i = 1; i <= r; i++)
 			{
-				for (int j = 1; i <= r; j++)
-				{
-					if(pwHasla[j]==pwHasla[j+1])
+				ifstream plik("hasla.txt");																			//wylosowanie hasla i kategori z pliku
+				nrHasla = (rand() % p) + 1;
+				pwHasla[i] = nrHasla;
+
+				/*	if (i > 1)
 						{
-							do
+							for (int j = 1; i <= r; j++)
 							{
-								nrHasla = (rand() % p) + 1;
-								pwHasla[j+1] = nrHasla;
-							} while (pwHasla[j] == pwHasla[j + 1]);
-						}
+								if(pwHasla[j]==pwHasla[j+1])
+									{
+										do
+										{
+											nrHasla = (rand() % p) + 1;
+											pwHasla[j+1] = nrHasla;
+										} while (pwHasla[j] == pwHasla[j + 1]);
+									}
+							}
+						}*/
+				for (int i = 1; i < nrHasla; i++)
+				{
+					getline(plik, random);
 				}
+
+				kategoria.clear();
+				haslo.clear();
+				plik >> kategoria;																					//wczytanie	hasla i kategori do osobnych zmiennych
+				plik >> haslo;
+				plik.close();
+				cout << kategoria << endl;
+
+				hasloKropki.clear();
+				dlHasla = haslo.size();																				//podmiana hasla na kropki
+				hasloKropki.append(dlHasla, '.');
+
+
+
+				do
+				{
+					kolejkaGraczaPierwszego(haslo, hasloKropki, dlHasla);
+
+					if (haslo == hasloKropki)
+						break;
+
+					kolejkaGraczaDrugiego(haslo, hasloKropki, dlHasla);
+
+				} while (haslo != hasloKropki);
+
 			}
-		for (int i = 1; i < nrHasla; i++)
-		{
-			getline(plik, random);
+
+			ofstream ranko("ranking.txt", ios::app);
+			ranko << jeden.pieniadze << " " << jeden.imie << endl;
+			ranko << dwa.pieniadze << " " << dwa.imie << endl;
+			ranko.close();
+
+
+			wyswietlRanking();
+			break;
 		}
-
-		kategoria.clear();
-		haslo.clear();
-		plik >> kategoria;																					//wczytanie	hasla i kategori do osobnych zmiennych
-		plik >> haslo;
-		plik.close();
-		cout << kategoria << endl;
-
-		hasloKropki.clear();
-		dlHasla = haslo.size();																				//podmiana hasla na kropki
-		hasloKropki.append(dlHasla, '.');
-
-
-
-		do
+		case 2:
 		{
-			kolejkaGraczaPierwszego(haslo, hasloKropki, dlHasla);
-
-			if (haslo == hasloKropki)
-				break;
-
-			kolejkaGraczaDrugiego(haslo, hasloKropki, dlHasla);
-
-		} while (haslo != hasloKropki);
-
-	}
-	cin.get();
-	cin.get();
+			wyswietlRanking();
+			break;
+		}
+		case 3:
+			exit(0);
+		}
+	} while (true);
 	return 0;
 }
 int nagrodaa()
@@ -201,5 +232,50 @@ void kolejkaGraczaDrugiego(string hasloo, string& hasloKropkii, int dlHaslaa)
 			break;
 	} while (w == 1);
 
+}
+
+void wyswietlRanking()
+{
+	struct gracz
+	{
+		string imie;
+		int pieniadze;
+	};
+	string test;
+	int b = 0;
+
+	system("cls");
+
+	ifstream rank("ranking.txt");
+	do
+	{
+		getline(rank, test);
+		b++;
+	} while (!rank.eof());
+	b--;
+	rank.close();
+
+	gracz* tab = new gracz[b];
+
+	ifstream ranking("ranking.txt");
+	for (int i = 0; i < b; i++)
+	{
+		ranking >> tab[i].pieniadze;
+		getline(ranking, tab[i].imie);
+	}
+
+	for (int i = 0; i < b; i++)
+	{
+		for (int j = 0; j < b - 1; j++)
+		{
+			if (tab[j].pieniadze < tab[j + 1].pieniadze)
+				swap(tab[j], tab[j + 1]);
+		}
+	}
+
+	for (int i = 0; i < b; i++)
+		cout << i + 1 << "." << tab[i].imie << " " << tab[i].pieniadze << endl;
+	cin.get();
+	cin.get();
 }
 
