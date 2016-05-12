@@ -10,10 +10,9 @@
 #include <windows.h>
 using namespace std;
 
-const int n = 12;										//ilosc nagrod
+const int n = 30;										//ilosc nagrod
 const int p = 5;										//ilosc pytan
-const int r = 1;										//ilosc rund
-int pwHasla[r+1];
+const int r = 4;										//ilosc rund
 
 void kolejkaGraczaPierwszego(string, string&, int);
 void kolejkaGraczaDrugiego(string, string&, int);
@@ -36,12 +35,12 @@ int main()
 	string random;
 	string kategoria;
 	
-	int nrHasla = 0;
+	int nrHasla[r + 1] = { 0 };
 	int dlHasla = 0;
 	
 	
 	srand(time(NULL));
-//wczytanie imion graczy
+
 	
 	do
 	{
@@ -58,35 +57,30 @@ int main()
 		{
 			system("cls");
 			cin.get();
-			cout << "Podaj imie pierwszego gracza:\n";
+			cout << "Podaj imie pierwszego gracza:\n";																//wczytanie imion graczy
 			getline(cin, jeden.imie);
 			cout << "Podaj imie drugiego gracza:\n";
 			getline(cin, dwa.imie);
 			Sleep(800);
 			system("cls");
 			cout << "\nWitamy\n" << jeden.imie << " rozpoczyna kolejke.\n\nHaslo z kategori: \n";
-
-			for (int i = 1; i <= r; i++)
+			int b = 1;
+			for (b = 1; b <= r; b++)
 			{
 				ifstream plik("hasla.txt");																			//wylosowanie hasla i kategori z pliku
-				nrHasla = (rand() % p) + 1;
-				pwHasla[i] = nrHasla;
+				nrHasla[b] = (rand() % p) + 1;
+				nrHasla[0] = nrHasla[b];
 
-				/*	if (i > 1)
-						{
-							for (int j = 1; i <= r; j++)
-							{
-								if(pwHasla[j]==pwHasla[j+1])
+					if (b > 1)																						//sprawdzenie powtarzalnosci hasla
+							for (int i = 1; i < b; i++)
+								if (nrHasla[i] == nrHasla[0])
+									do
 									{
-										do
-										{
-											nrHasla = (rand() % p) + 1;
-											pwHasla[j+1] = nrHasla;
-										} while (pwHasla[j] == pwHasla[j + 1]);
-									}
-							}
-						}*/
-				for (int i = 1; i < nrHasla; i++)
+										nrHasla[b] = (rand() % p) + 1;
+										nrHasla[0] = nrHasla[b];
+									} while (nrHasla[i] == nrHasla[0]);
+
+				for (int i = 1; i < nrHasla[b]; i++)
 				{
 					getline(plik, random);
 				}
@@ -97,12 +91,16 @@ int main()
 				plik >> haslo;
 				plik.close();
 				cout << kategoria << endl;
-
 				hasloKropki.clear();
-				dlHasla = haslo.size();																				//podmiana hasla na kropki
-				hasloKropki.append(dlHasla, '.');
+				hasloKropki = haslo;
+				dlHasla = haslo.size();																				
+				for (int i = 0; i <= dlHasla; i++)																	//podmiana hasla na kropki
+				{
+					if (hasloKropki[i] == '-');
+					else
+						hasloKropki[i] = '.';
 
-
+				}
 
 				do
 				{
@@ -121,7 +119,6 @@ int main()
 			ranko << jeden.pieniadze << " " << jeden.imie << endl;
 			ranko << dwa.pieniadze << " " << dwa.imie << endl;
 			ranko.close();
-
 
 			wyswietlRanking();
 			break;
@@ -189,12 +186,11 @@ void kolejkaGraczaPierwszego(string hasloo, string& hasloKropkii, int dlHaslaa)
 				}
 			cout << hasloKropkii << endl;
 			if (hasloKropkii == hasloo)
-				break;
+				w=0;
 
 		} while (w==1);
 
 	}
-
 
 void kolejkaGraczaDrugiego(string hasloo, string& hasloKropkii, int dlHaslaa)
 {
@@ -229,7 +225,7 @@ void kolejkaGraczaDrugiego(string hasloo, string& hasloKropkii, int dlHaslaa)
 		}
 		cout << hasloKropkii << endl;
 		if (hasloKropkii == hasloo)
-			break;
+			w=0;
 	} while (w == 1);
 
 }
@@ -275,6 +271,8 @@ void wyswietlRanking()
 
 	for (int i = 0; i < b; i++)
 		cout << i + 1 << "." << tab[i].imie << " " << tab[i].pieniadze << endl;
+
+	delete [] tab;
 	cin.get();
 	cin.get();
 }

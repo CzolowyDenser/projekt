@@ -1,5 +1,5 @@
-RYBY karp
-PILKAZ ramos
-ALKOHOL wino
-KOLARZ sagan
-JEDZENIE pizza
+RYBY karp-karp
+PILKAZ ramos-ramos
+ALKOHOL wino-wino
+KOLARZ sagan-sagan
+JEDZENIE pizza-pizza

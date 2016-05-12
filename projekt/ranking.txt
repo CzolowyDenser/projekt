@@ -24,3 +24,5 @@
 0 Gonzo
 280 Jon Won
 0 Rok bok
+160 Bartek
+0 Patryk
