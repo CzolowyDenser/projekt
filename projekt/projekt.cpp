@@ -178,6 +178,7 @@ int main()
 			cout << "   stracisz kolejke." << endl << endl;
 			cout << "5. Przy podawaniu calego hasla nagroda to 50 za kazda litere hasla." << endl << endl;
 			cout << "6. Aby podac haslo w calosci nalezy zamiast litery wpisac 0 (zero)." << endl << endl;
+			cout << "7. Jesli haslo zawiera spacje zastap ja myslnikiem '-'." << endl << endl;
 			cin.get();
 			cin.get();
 			break;
@@ -219,6 +220,7 @@ void kolejkaGraczaPierwszego(string hasloo, string& hasloKropkii, int dlHaslaa, 
 			if (pula == 0)
 				{
 					jeden.pieniadze = 0;
+					k = 1;
 					break;
 				}
 			w = 0;
@@ -308,6 +310,7 @@ void kolejkaGraczaDrugiego(string hasloo, string& hasloKropkii, int dlHaslaa, st
 		if (pula == 0)
 		{
 			dwa.pieniadze = 0;
+			k = 0;
 			break;
 		}
 		w = 0;

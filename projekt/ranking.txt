@@ -48,3 +48,5 @@
 0 dsa
 500 asd
 0 asd
+20 Mateusz	
+1240 Lukasz
