@@ -22,6 +22,8 @@ void kolejkaGraczaPierwszego(string, string&, int, string);
 void kolejkaGraczaDrugiego(string, string&, int, string);
 int nagrodaa();
 void wyswietlRanking();
+void zasady();
+void wczytajGraczy();
 
 
 struct gracz
@@ -55,7 +57,7 @@ int main()
 		cout << "3. Zasady gry." << endl;
 		cout << "4. Wyjscie" << endl;
 		int menu = 0;	
-		while (!(cin>>menu))
+		while (!(cin>>menu)|| menu>4 )
 			{
 				cin.clear();
 				cin.ignore();
@@ -67,14 +69,7 @@ int main()
 		{
 		case 1:
 		{
-			system("cls");
-			cin.get();
-			cout << "Podaj imie pierwszego gracza:\n";																//wczytanie imion graczy
-			getline(cin, jeden.imie);
-			cout << "Podaj imie drugiego gracza:\n";
-			getline(cin, dwa.imie);
-			Sleep(800);
-			system("cls");
+			wczytajGraczy();
 			cout << "\nWitamy\n" << jeden.imie << " rozpoczyna kolejke.\n\n\n\t\t\tHaslo z kategori: \n\n";
 			int b = 1;
 			for (b = 1; b <= r; b++)
@@ -170,17 +165,7 @@ int main()
 		}
 		case 3:
 		{
-			system("cls");
-			cout << "1. Gra przeznaczona dla dwoch graczy." << endl << endl;;
-			cout << "2. Spolgloski mozna podawac, a samogloski sie kupuje." << endl << endl;
-			cout << "3. Koszt samogloski 50." << endl << endl;
-			cout << "4. Jesli podasz samogloske, a nie masz wystarczajacej ilosci pieniedzy na koncie " << endl;
-			cout << "   stracisz kolejke." << endl << endl;
-			cout << "5. Przy podawaniu calego hasla nagroda to 50 za kazda litere hasla." << endl << endl;
-			cout << "6. Aby podac haslo w calosci nalezy zamiast litery wpisac 0 (zero)." << endl << endl;
-			cout << "7. Jesli haslo zawiera spacje zastap ja myslnikiem '-'." << endl << endl;
-			cin.get();
-			cin.get();
+			zasady();
 			break;
 		}
 		case 4:
@@ -430,5 +415,30 @@ void wyswietlRanking()
 	delete [] tab;
 	cin.get();
 	cin.get();
+}
+void zasady()
+{
+	system("cls");
+	cout << "1. Gra przeznaczona dla dwoch graczy." << endl << endl;;
+	cout << "2. Spolgloski mozna podawac, a samogloski sie kupuje." << endl << endl;
+	cout << "3. Koszt samogloski 50." << endl << endl;
+	cout << "4. Jesli podasz samogloske, a nie masz wystarczajacej ilosci pieniedzy na koncie " << endl;
+	cout << "   stracisz kolejke." << endl << endl;
+	cout << "5. Przy podawaniu calego hasla nagroda to 50 za kazda litere hasla." << endl << endl;
+	cout << "6. Aby podac haslo w calosci nalezy zamiast litery wpisac 0 (zero)." << endl << endl;
+	cout << "7. Jesli haslo zawiera spacje zastap ja myslnikiem '-'." << endl << endl;
+	cin.get();
+	cin.get();
+}
+void wczytajGraczy()
+{
+	system("cls");
+	cin.get();
+	cout << "Podaj imie pierwszego gracza:\n";																//wczytanie imion graczy
+	getline(cin, jeden.imie);
+	cout << "Podaj imie drugiego gracza:\n";
+	getline(cin, dwa.imie);
+	Sleep(800);
+	system("cls");
 }
 
